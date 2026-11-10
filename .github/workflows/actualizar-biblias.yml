@@ -1,0 +1,31 @@
+name: Actualizar Biblias en index.html
+
+on:
+  push:
+    paths:
+      - '**.json'
+  schedule:
+    - cron: '0 */6 * * *'   # cada 6 horas
+  workflow_dispatch:         # también se puede lanzar a mano desde la pestaña Actions
+
+permissions:
+  contents: write
+
+jobs:
+  actualizar:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Insertar las Biblias .json en index.html
+        run: python3 actualizar_biblias.py
+      - name: Guardar cambios
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add index.html
+          if git diff --cached --quiet; then
+            echo "Sin cambios"
+          else
+            git commit -m "Actualizar Biblias en index.html"
+            git push
+          fi
