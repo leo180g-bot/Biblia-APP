@@ -1,5 +1,53 @@
 [
   {
+    "file": "DHH94I_vid_52.json",
+    "name": "DHH94I",
+    "title": "Biblia Dios Habla Hoy",
+    "lang": "Español (América Latina)",
+    "size": 8058898,
+    "copy": "Texto © Sociedades Bíblicas Unidas, 1994."
+  },
+  {
+    "file": "DHHS94_vid_1846.json",
+    "name": "DHHS94",
+    "title": "Dios habla Hoy Estándar",
+    "lang": "Español (América Latina)",
+    "size": 7989797,
+    "copy": "Bible text: LA BIBLIA DIOS HABLA HOY, Tercera edición © Sociedades Bíblicas Unidas 1966, 1970, 1979, 1983, 1994, 1996 Todos los derechos reservados. www.unitedbiblesocieties.org/"
+  },
+  {
+    "file": "LBLA_vid_89.json",
+    "name": "LBLA",
+    "title": "La Biblia de las Américas",
+    "lang": "Español (América Latina)",
+    "size": 7165673,
+    "copy": "1986, 1995, 1997 by The Lockman Foundation"
+  },
+  {
+    "file": "NBLA_vid_103.json",
+    "name": "NBLA",
+    "title": "Nueva Biblia de las Américas",
+    "lang": "Español (América Latina)",
+    "size": 7185850,
+    "copy": "1986, 1995, 1997, 2005 by The Lockman Foundation"
+  },
+  {
+    "file": "NTV_vid_127.json",
+    "name": "NTV",
+    "title": "Nueva Traducción Viviente",
+    "lang": "Español (América Latina)",
+    "size": 7521144,
+    "copy": "Santa Biblia, Nueva Traducción Viviente, copyright © 2010 by Tyndale House Foundation. Used by permission of Tyndale House Publishers, a Division of Tyndale House Ministries, Carol Stream, Illinois 60188. All rights reserved."
+  },
+  {
+    "file": "NVI_vid_128.json",
+    "name": "NVI",
+    "title": "Nueva Versión Internacional - Español",
+    "lang": "Español (América Latina)",
+    "size": 7167812,
+    "copy": "Santa Biblia, Nueva Versión Internacional® NVI® © 1999, 2015, 2022 por Biblica, Inc. Usado con permiso. Reservados todos los derechos en todo el mundo."
+  },
+  {
     "file": "RVR1960.json",
     "name": "RVR1960",
     "title": "Biblia Reina Valera 1960",
