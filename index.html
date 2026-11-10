@@ -358,7 +358,7 @@ const showLib=()=>dlg('<h3>Biblias disponibles</h3>'+(S.man.length?libHTML():S.e
 const refreshLib=()=>{if(D.open&&D.querySelector('#lib'))showLib();else if(!S.tr)main()};
 const pg=(i,t)=>document.querySelectorAll(`[data-pg="${i}"]`).forEach(e=>e.textContent=t);
 async function dl(m,i){
- const r=await fetch(encodeURI(m.file),{cache:'no-cache'});if(!r.ok)throw new Error('HTTP '+r.status);
+ const r=await fetch(m.file.split('/').map(encodeURIComponent).join('/'),{cache:'no-cache'});if(!r.ok)throw new Error('HTTP '+r.status);
  let text;if(r.body&&r.body.getReader){const rd=r.body.getReader(),ch=[];let n=0;for(;;){const{done,value}=await rd.read();if(done)break;ch.push(value);n+=value.length;pg(i,'Descargando… '+(n/1e6).toFixed(1)+' MB')}text=await new Blob(ch).text()}else text=await r.text();
  load(JSON.parse(text),m.file,0,{name:m.name,title:m.title,copy:m.copy,quiet:1});
  const t=S.trs.find(x=>x.name==m.name);if(S.tr&&S.tr.name==m.name){S.tr=t;if(S.bi<t.books.length){S.ci=Math.min(S.ci,t.books[S.bi].ch.length-1)}else{S.bi=0;S.ci=0}}
@@ -368,11 +368,21 @@ async function dlAll(fs){let ok=0;
   try{await dl(S.man[i],i);ok++}catch(e){pg(i,'Error: '+e.message)}}
  if(!ok)return;
  if(!S.tr&&S.trs.length){D.open&&D.close();useTr(0)}else{tsel();if(S.tr){side();main()}refreshLib();toast(ok+' Biblia(s) lista(s)')}}
+const SKIP=/(^|\/)(biblias|package|package-lock|manifest|composer|tsconfig)\.json$/i;
+async function ghList(){const h=location.hostname,repo=location.pathname.split('/')[1];
+ if(!/\.github\.io$/i.test(h)||!repo)return[];
+ const r=await fetch(`https://api.github.com/repos/${h.split('.')[0]}/${repo}/git/trees/HEAD?recursive=1`);if(!r.ok)return[];
+ return((await r.json()).tree||[]).filter(x=>x.type=='blob'&&/\.json$/i.test(x.path)&&!SKIP.test(x.path)&&!/(^|\/)(\.|node_modules)/.test(x.path)).map(x=>({file:x.path,name:x.path.split('/').pop().replace(/\.json$/i,''),title:'',lang:'',size:x.size,copy:''}))}
 async function getMan(){
- try{const r=await fetch('biblias.json',{cache:'no-cache'});if(r.ok){const j=await r.json();return Array.isArray(j)?j:j.biblias}}catch(e){}
- const r=await fetch('./'),t=await r.text();
- const n=[...t.matchAll(/href="([^"#?]+)"/g)].map(m=>{try{return decodeURIComponent(m[1])}catch(e){return m[1]}}).filter(h=>/\.json$/i.test(h)&&!/biblias\.json$/i.test(h)).map(h=>h.split('/').pop());
- if(!n.length)throw 0;return[...new Set(n)].map(f=>({file:f,name:f.replace(/\.json$/i,''),title:'',size:0}))}
+ let man=[],api=[];
+ try{const r=await fetch('biblias.json',{cache:'no-cache'});if(r.ok){const j=await r.json();man=Array.isArray(j)?j:(j.biblias||[])}}catch(e){}
+ try{api=await ghList()}catch(e){}
+ if(!man.length&&!api.length)try{const t=await(await fetch('./')).text();
+  api=[...new Set([...t.matchAll(/href="([^"#?]+)"/g)].map(m=>{try{return decodeURIComponent(m[1])}catch(e){return m[1]}}).filter(h=>/\.json$/i.test(h)&&!SKIP.test(h)).map(h=>h.split('/').pop()))].map(f=>({file:f,name:f.replace(/\.json$/i,''),title:'',lang:'',size:0,copy:''}))}catch(e){}
+ if(api.length){const ap=new Set(api.map(x=>x.file));man=man.filter(m=>ap.has(m.file));const hv=new Set(man.map(m=>m.file));api.forEach(x=>{if(!hv.has(x.file))man.push(x)})}
+ if(!man.length)throw 0;
+ const used=new Set();man.forEach(m=>{let n=m.name;if(used.has(n))n=m.file.replace(/\.json$/i,'').replace(/\//g,' - ');m.name=n;used.add(n)});
+ return man}
 applySet();S.ld=1;side();main();$('#tsel').onchange=e=>useTr(+e.target.value);
 (async()=>{
  try{S.man=await getMan()}catch(e){S.err='<p>No encontré la lista de Biblias (<b>biblias.json</b>). Ejecuta <b>python3 actualizar_biblias.py</b> y publica de nuevo. Recuerda que la página debe abrirse desde un servidor web (por ejemplo GitHub Pages), no con doble clic.</p>'}
