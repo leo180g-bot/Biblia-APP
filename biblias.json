@@ -48,6 +48,14 @@
     "copy": "Santa Biblia, Nueva Versión Internacional® NVI® © 1999, 2015, 2022 por Biblica, Inc. Usado con permiso. Reservados todos los derechos en todo el mundo."
   },
   {
+    "file": "NVI_vid_1637.json",
+    "name": "NVI_vid_1637",
+    "title": "Nueva Versión Internacional - Castellano",
+    "lang": "Español (España)",
+    "size": 6851366,
+    "copy": "Santa Biblia, NUEVA VERSIÓN INTERNACIONAL® NVI® (Castellano) © 1999, 2005, 2017 por Biblica, Inc.® Usado con permiso de Biblica, Inc.® Reservados todos los derechos en todo el mundo."
+  },
+  {
     "file": "RVR1960.json",
     "name": "RVR1960",
     "title": "Biblia Reina Valera 1960",
@@ -62,5 +70,21 @@
     "lang": "",
     "size": 5875296,
     "copy": ""
+  },
+  {
+    "file": "TLA_vid_176.json",
+    "name": "TLA",
+    "title": "Traducción en Lenguaje Actual",
+    "lang": "Español (América Latina)",
+    "size": 6597580,
+    "copy": "Traducción en lenguaje actual ® © Sociedades Bíblicas Unidas, 2002, 2004."
+  },
+  {
+    "file": "TLAI_vid_178.json",
+    "name": "TLAI",
+    "title": "Traducción en Lenguaje Actual Interconfesional",
+    "lang": "Español (América Latina)",
+    "size": 7564446,
+    "copy": "Traducción en lenguaje actual ® © Sociedades Bíblicas Unidas, 2002, 2004."
   }
 ]
