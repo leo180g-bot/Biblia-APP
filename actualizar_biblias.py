@@ -1,20 +1,20 @@
 #!/usr/bin/env python3
 """
-Actualiza index.html con las Biblias (.json) que haya en la misma carpeta.
+Genera biblias.json: la lista (catálogo) de Biblias .json que hay en la carpeta.
+index.html lee esa lista y deja que cada usuario elija cuáles descargar.
 
 Uso:
   python3 actualizar_biblias.py                 # revisa una vez y termina
   python3 actualizar_biblias.py --cada 60       # vuelve a revisar cada 60 segundos
-  python3 actualizar_biblias.py --carpeta RUTA --html RUTA/index.html
+  python3 actualizar_biblias.py --carpeta RUTA --salida RUTA/biblias.json
 
 Solo usa la biblioteca estándar de Python 3.8+. Los JSON que no sean una Biblia
-(o que estén dañados) se omiten con un aviso. index.html solo se reescribe si
-algo cambió, y las Biblias cuyo .json se borre desaparecen del index.html.
+(o que estén dañados) se omiten con un aviso. biblias.json solo se reescribe si
+algo cambió. Los archivos de las Biblias no se modifican.
 """
-import argparse, base64, gzip, html, json, re, sys, time
+import argparse, json, sys, time
 from pathlib import Path
 
-INI, FIN = '<!--BIBLIAS_INICIO-->', '<!--BIBLIAS_FIN-->'
 IGNORAR = {'biblias.json', 'package.json', 'package-lock.json', 'manifest.json', 'composer.json', 'tsconfig.json'}
 
 try:
@@ -37,34 +37,20 @@ def es_biblia(d):
     return isinstance(d, dict) and len(d) >= 60 and all(isinstance(v, (dict, list)) for v in d.values())
 
 
-def podar(d):
-    """Si el JSON usa libros -> capítulos -> items, descarta campos que el lector no necesita."""
-    libros = d.get('books') if isinstance(d, dict) else d
-    try:
-        if isinstance(libros, list) and 'items' in libros[0]['chapters'][0]:
-            def cap(c):
-                o = {'usfm': c['usfm']} if c.get('usfm') else {'human': c.get('human')}
-                o['items'] = [{'type': i.get('type'), 'verse_numbers': i.get('verse_numbers'), 'lines': i.get('lines')}
-                              for i in c.get('items', [])]
-                return o
-            return {'books': [{'human': b.get('human') or b.get('name'), 'usfm': b.get('usfm'),
-                               'chapters': [cap(c) for c in b['chapters']]} for b in libros]}
-    except (KeyError, IndexError, TypeError, AttributeError):
-        pass
-    return d
-
-
-def metadatos(d, ruta):
+def entrada(d, ruta):
     m = d if isinstance(d, dict) else {}
     nombre = str(m.get('local_abbreviation') or m.get('abbreviation') or ruta.stem)
     titulo = str(m.get('local_title') or m.get('title') or m.get('translation') or m.get('name') or '')
     cp = m.get('copyright')
     copia = cp.get('text', '') if isinstance(cp, dict) else (cp if isinstance(cp, str) else '')
-    return nombre, ('' if titulo == nombre else titulo), copia
+    lg = m.get('language')
+    lang = lg.get('local_name', '') if isinstance(lg, dict) else (lg if isinstance(lg, str) else '')
+    return {'file': ruta.name, 'name': nombre, 'title': '' if titulo == nombre else titulo,
+            'lang': str(lang), 'size': ruta.stat().st_size, 'copy': copia}
 
 
 def generar(carpeta):
-    bloques, usados = [], set()
+    lista, usados = [], set()
     for ruta in sorted(carpeta.glob('*.json'), key=lambda p: p.name.lower()):
         if ruta.name.lower() in IGNORAR:
             continue
@@ -76,48 +62,41 @@ def generar(carpeta):
         if not es_biblia(d):
             print(f'  - {ruta.name}: no parece una Biblia; se omite')
             continue
-        nombre, titulo, copia = metadatos(d, ruta)
-        if nombre in usados:
-            nombre = ruta.stem
-        usados.add(nombre)
-        raw = json.dumps(podar(d), ensure_ascii=False, separators=(',', ':')).encode('utf-8')
-        z = base64.b64encode(gzip.compress(raw, 9, mtime=0)).decode()
-        a = lambda s: html.escape(s, quote=True)
-        bloques.append(f'<script type="text/plain" class="bib" data-file="{a(ruta.name)}" data-name="{a(nombre)}" '
-                       f'data-title="{a(titulo)}" data-copy="{a(copia)}">{z}</script>')
-        print(f'  + {ruta.name}: "{nombre}" ({len(raw)/1e6:.1f} MB -> {len(z)/1e6:.1f} MB)')
-    return bloques
+        e = entrada(d, ruta)
+        if e['name'] in usados:
+            e['name'] = ruta.stem
+        usados.add(e['name'])
+        lista.append(e)
+        print(f'  + {ruta.name}: "{e["name"]}" ({e["size"]/1e6:.1f} MB)')
+    return lista
 
 
-def actualizar(carpeta, destino):
-    txt = destino.read_text(encoding='utf-8')
-    if INI not in txt or FIN not in txt:
-        sys.exit(f'Error: {destino.name} no contiene las marcas {INI} y {FIN}.')
+def actualizar(carpeta, salida):
     print(f'[{time.strftime("%H:%M:%S")}] Buscando Biblias en {carpeta} ...')
-    bloques = generar(carpeta)
-    nuevo = re.sub(re.escape(INI) + '.*?' + re.escape(FIN),
-                   lambda m: INI + '\n' + '\n'.join(bloques) + '\n' + FIN, txt, flags=re.S)
-    if nuevo != txt:
-        destino.write_text(nuevo, encoding='utf-8')
-        print(f'{destino.name} actualizado con {len(bloques)} Biblia(s).')
+    nuevo = json.dumps(generar(carpeta), ensure_ascii=False, indent=2) + '\n'
+    viejo = salida.read_text(encoding='utf-8') if salida.exists() else None
+    if nuevo != viejo:
+        salida.write_text(nuevo, encoding='utf-8')
+        print(f'{salida.name} actualizado.')
     else:
         print('Sin cambios.')
 
 
 def firma(carpeta):
-    return tuple((p.name, p.stat().st_size, p.stat().st_mtime_ns) for p in sorted(carpeta.glob('*.json')))
+    return tuple((p.name, p.stat().st_size, p.stat().st_mtime_ns) for p in sorted(carpeta.glob('*.json'))
+                 if p.name.lower() != 'biblias.json')
 
 
 def main():
     base = Path(__file__).resolve().parent
-    ap = argparse.ArgumentParser(description='Inserta en index.html las Biblias .json de la carpeta.')
+    ap = argparse.ArgumentParser(description='Genera biblias.json con las Biblias .json de la carpeta.')
     ap.add_argument('--carpeta', type=Path, default=base)
-    ap.add_argument('--html', type=Path, default=None)
+    ap.add_argument('--salida', type=Path, default=None)
     ap.add_argument('--cada', type=int, default=0, metavar='SEG', help='repetir la revisión cada SEG segundos')
     a = ap.parse_args()
     carpeta = a.carpeta.resolve()
-    destino = (a.html or carpeta / 'index.html').resolve()
-    actualizar(carpeta, destino)
+    salida = (a.salida or carpeta / 'biblias.json').resolve()
+    actualizar(carpeta, salida)
     if a.cada > 0:
         print(f'Vigilando la carpeta cada {a.cada} s. Ctrl+C para salir.')
         ultima = firma(carpeta)
@@ -127,7 +106,7 @@ def main():
                 f = firma(carpeta)
                 if f != ultima:
                     ultima = f
-                    actualizar(carpeta, destino)
+                    actualizar(carpeta, salida)
         except KeyboardInterrupt:
             print('\nDetenido.')
 
