@@ -16,10 +16,10 @@
     "idioma": "es",
     "file": "datos/confesion-westminster.json",
     "origen": "confesion-westminster.json",
-    "secciones": 2,
-    "parrafos": 1,
-    "size": 123499,
-    "licencia": ""
+    "secciones": 34,
+    "parrafos": 171,
+    "size": 112737,
+    "licencia": "Texto de la traducción contenida en el PDF fuente 'Confesion_de_fe_de_Westminster.pdf'."
   },
   {
     "id": "segunda-confesion-helvetica",
