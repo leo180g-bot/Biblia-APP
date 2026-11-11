@@ -11,6 +11,17 @@
     "licencia": "Texto de la traducción contenida en 'Las Tres Formas de Unidad de las Iglesias Bautistas Reformadas' (PDF fuente)."
   },
   {
+    "id": "confesion-belga",
+    "titulo": "Confesión Belga",
+    "idioma": "es",
+    "file": "datos/confesion-belga.json",
+    "origen": "confesion-belga.json",
+    "secciones": 37,
+    "parrafos": 37,
+    "size": 65189,
+    "licencia": "Texto de la traducción contenida en el PDF fuente '5._CONFESIÓN_BELGA.pdf'."
+  },
+  {
     "id": "confesion-fe-iglesia-escocia",
     "titulo": "La Confesión de Fe de la Iglesia de Escocia",
     "idioma": "es",
