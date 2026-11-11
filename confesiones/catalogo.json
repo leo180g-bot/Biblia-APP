@@ -11,6 +11,17 @@
     "licencia": "Texto de la traducción contenida en 'Las Tres Formas de Unidad de las Iglesias Bautistas Reformadas' (PDF fuente)."
   },
   {
+    "id": "confesion-fe-iglesia-escocia",
+    "titulo": "La Confesión de Fe de la Iglesia de Escocia",
+    "idioma": "es",
+    "file": "datos/confesion-fe-iglesia-escocia.json",
+    "origen": "confesion-Iglesia-escocia.json",
+    "secciones": 25,
+    "parrafos": 27,
+    "size": 45824,
+    "licencia": "Texto de la traducción contenida en el PDF fuente '4._LA_CONFESIÓN_DE_FE_DE_LA_IGLESIA_DE_ESCOCIA.pdf'."
+  },
+  {
     "id": "confesion-westminster",
     "titulo": "La Confesión de Fe de Westminster",
     "idioma": "es",
