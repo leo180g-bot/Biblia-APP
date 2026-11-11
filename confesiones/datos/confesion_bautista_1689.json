@@ -1,0 +1,147 @@
+{
+  "titulo": "La Confesión de Fe Bautista de 1677/89",
+  "fuente": "Las Tres Formas de Unidad de las Iglesias Bautistas Reformadas",
+  "secciones": [
+    {
+      "tipo": "prefacios_y_apendices",
+      "titulo": "Prefacio Original: Al Lector Juicioso e Imparcial"
+    },
+    {
+      "tipo": "capitulos",
+      "lista_capitulos": [
+        {
+          "numero": 1,
+          "titulo": "De las Sagradas Escrituras"
+        },
+        {
+          "numero": 2,
+          "titulo": "De Dios y de la Santa Trinidad"
+        },
+        {
+          "numero": 3,
+          "titulo": "Del Decreto de Dios"
+        },
+        {
+          "numero": 4,
+          "titulo": "De la Creación"
+        },
+        {
+          "numero": 5,
+          "titulo": "De la Providencia Divina"
+        },
+        {
+          "numero": 6,
+          "titulo": "De la Caída del Hombre, del Pecado, y de su Castigo"
+        },
+        {
+          "numero": 7,
+          "titulo": "Del Pacto de Dios"
+        },
+        {
+          "numero": 8,
+          "titulo": "De Cristo el Mediador"
+        },
+        {
+          "numero": 9,
+          "titulo": "De la Voluntad Propia"
+        },
+        {
+          "numero": 10,
+          "titulo": "Del Llamamiento Eficaz"
+        },
+        {
+          "numero": 11,
+          "titulo": "De la Justificación"
+        },
+        {
+          "numero": 12,
+          "titulo": "De la Adopción"
+        },
+        {
+          "numero": 13,
+          "titulo": "De la Santificación"
+        },
+        {
+          "numero": 14,
+          "titulo": "De la Fe Salvadora"
+        },
+        {
+          "numero": 15,
+          "titulo": "Del Arrepentimiento para Vida y Salvación"
+        },
+        {
+          "numero": 16,
+          "titulo": "De las Buenas Obras"
+        },
+        {
+          "numero": 17,
+          "titulo": "De la Perseverancia de los Santos"
+        },
+        {
+          "numero": 18,
+          "titulo": "De la Seguridad de la Gracia y Salvación"
+        },
+        {
+          "numero": 19,
+          "titulo": "De la Ley de Dios"
+        },
+        {
+          "numero": 20,
+          "titulo": "Del Evangelio y del Alcance de su Gracia"
+        },
+        {
+          "numero": 21,
+          "titulo": "De la Libertad Cristiana y la Libertad de Conciencia"
+        },
+        {
+          "numero": 22,
+          "titulo": "De la Adoración Religiosa y del Día Sabbath"
+        },
+        {
+          "numero": 23,
+          "titulo": "De los Juramentos y Votos Legítimos"
+        },
+        {
+          "numero": 24,
+          "titulo": "De la Autoridad Civil"
+        },
+        {
+          "numero": 25,
+          "titulo": "Del Matrimonio"
+        },
+        {
+          "numero": 26,
+          "titulo": "De la Iglesia"
+        },
+        {
+          "numero": 27,
+          "titulo": "De la Comunión de los Santos"
+        },
+        {
+          "numero": 28,
+          "titulo": "Del Bautismo y de la Mesa del SEÑOR"
+        },
+        {
+          "numero": 29,
+          "titulo": "Del Bautismo"
+        },
+        {
+          "numero": 30,
+          "titulo": "De la Mesa del SEÑOR"
+        },
+        {
+          "numero": 31,
+          "titulo": "Del Estado del Hombre después de la Muerte y de la Resurrección de los Muertos"
+        },
+        {
+          "numero": 32,
+          "titulo": "Del Juicio Final"
+        }
+      ]
+    },
+    {
+      "tipo": "prefacios_y_apendices",
+      "titulo": "Apéndice: Acerca del Bautismo"
+    }
+  ]
+}
