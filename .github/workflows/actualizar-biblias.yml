@@ -5,8 +5,8 @@ on:
     paths:
       - '**.json'
   schedule:
-    - cron: '0 */6 * * *'   # Se ejecuta automáticamente cada 6 horas
-  workflow_dispatch:         # Permite ejecutarlo manualmente desde GitHub Actions
+    - cron: '0 */6 * * *'   # cada 6 horas
+  workflow_dispatch:         # también se puede lanzar a mano desde la pestaña Actions
 
 permissions:
   contents: write
@@ -16,30 +16,20 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Configurar Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.x'
-
       - name: Generar biblias.json
+        run: python3 actualizar_biblias.py
+      - name: Generar catálogo de confesiones
         run: |
-          if [ -f actualizar_biblias.py ]; then python3 actualizar_biblias.py; fi
-
-      - name: Generar catalogo.json de confesiones
-        run: |
-          if [ -f actualizar_confesiones.py ]; then python3 actualizar_confesiones.py; fi
-
-      - name: Guardar y publicar cambios
+          if [ -d confesiones ]; then python3 actualizar_confesiones.py; fi
+      - name: Guardar cambios
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add biblias.json catalogo.json 2>/dev/null || true
-          git add confesiones/ 2>/dev/null || true
-          
+          git add biblias.json
+          if [ -d confesiones ]; then git add confesiones; fi
           if git diff --cached --quiet; then
-            echo "Sin cambios detectados."
+            echo "Sin cambios"
           else
-            git commit -m "Actualizar automáticamente biblias.json y catalogo.json [skip ci]"
+            git commit -m "Actualizar listas de Biblias y confesiones"
             git push
           fi
