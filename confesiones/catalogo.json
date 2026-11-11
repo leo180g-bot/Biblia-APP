@@ -1,17 +1,6 @@
 [
   {
     "id": "confesion-bautista-1689",
-    "titulo": "La Confesión de Fe Bautista de 1677/89",
-    "idioma": "es",
-    "file": "datos/confesion-bautista-1689.json",
-    "origen": "Confesion-Bautista-1689-Estructura-Muestra.json",
-    "secciones": 34,
-    "parrafos": 195,
-    "size": 349116,
-    "licencia": "Texto de la traducción contenida en 'Las Tres Formas de Unidad de las Iglesias Bautistas Reformadas' (PDF fuente)."
-  },
-  {
-    "id": "confesion-bautista-1689",
     "titulo": "Segunda Confesión Bautista de Fe de Londres (1689)",
     "idioma": "es",
     "file": "datos/confesion-bautista-1689.json",
