@@ -1,5 +1,16 @@
 [
   {
+    "id": "canones-dort",
+    "titulo": "Los Cánones de Dort (1619)",
+    "idioma": "es",
+    "file": "datos/canones-dort.json",
+    "origen": "canones-dort.json",
+    "secciones": 6,
+    "parrafos": 101,
+    "size": 77673,
+    "licencia": "Texto de la traducción contenida en el PDF fuente '7._Los_Cánones_del_Sínodo_de_Dort_1618-1619.pdf'."
+  },
+  {
     "id": "confesion-bautista-1689",
     "titulo": "La Confesión de Fe Bautista de 1677/89",
     "idioma": "es",
