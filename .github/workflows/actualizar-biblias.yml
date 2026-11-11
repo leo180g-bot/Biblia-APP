@@ -25,8 +25,8 @@ jobs:
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-          git add biblias.json
-          if [ -d confesiones ]; then git add confesiones; fi
+          git add biblias.json confesiones.json 2>/dev/null || true
+          git add confesiones/ 2>/dev/null || true
           if git diff --cached --quiet; then
             echo "Sin cambios"
           else
