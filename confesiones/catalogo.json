@@ -11,6 +11,17 @@
     "licencia": "Se otorga permiso expreso para reproducir este material por cualquier medio, siempre que no se cobre más que un monto nominal por el costo de la duplicación, se incluya esta nota de copyright y no se realice ninguna modificación al texto."
   },
   {
+    "id": "confesion-bautista-1689",
+    "titulo": "La Confesión de Fe Bautista de 1677/89",
+    "idioma": "es",
+    "file": "datos/confesion-bautista-1689.json",
+    "origen": "Confesion-Bautista-1689.json",
+    "secciones": 34,
+    "parrafos": 195,
+    "size": 349116,
+    "licencia": "Texto de la traducción contenida en 'Las Tres Formas de Unidad de las Iglesias Bautistas Reformadas' (PDF fuente)."
+  },
+  {
     "id": "confesion-westminster",
     "titulo": "La Confesión de Fe de Westminster",
     "idioma": "es",
