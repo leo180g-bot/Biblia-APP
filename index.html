@@ -433,8 +433,11 @@ function confRender(keep){const el=$('#conf');if(el.hidden)return;
  if(!keep)el.scrollTop=0;ls.s('bib:conf2',{c:S.cc,s:S.cs})}
 async function cDl(id){const c=S.cat.find(x=>x.id==id);if(!c)return;
  const st=t=>document.querySelectorAll(`[data-cg="${id}"]`).forEach(e=>e.textContent=t);st('Descargando…');
- try{const r=await fetch('confesiones/'+c.file.split('/').map(encodeURIComponent).join('/'),{cache:'no-cache'});if(!r.ok)throw new Error('HTTP '+r.status);
-  const text=await r.text(),doc=JSON.parse(text);if(!doc.secciones)throw new Error('formato no válido');
+ try{const u=f=>'confesiones/'+f.split('/').map(encodeURIComponent).join('/');
+  let r=await fetch(u(c.file),{cache:'no-cache'});
+  if(!r.ok&&c.origen)r=await fetch(u(c.origen),{cache:'no-cache'});
+  if(!r.ok)throw new Error('HTTP '+r.status+': no se encontró confesiones/'+c.file+'. Sube la carpeta "datos" o ejecuta actualizar_confesiones.py');
+  const text=await r.text(),doc=JSON.parse(text);if(!doc.secciones)throw new Error('el archivo no está normalizado. Ejecuta actualizar_confesiones.py y sube confesiones/datos/');
   S.cdocs[id]=doc;S.chave[id]=c.size;await idb.set('c:'+id,{size:c.size,text});
   if(Object.keys(S.cdocs).length==1){S.cc=id;S.cs=0;S.cv='read'}
   confRender();toast('Confesión descargada')}catch(e){st('Error: '+e.message)}}
