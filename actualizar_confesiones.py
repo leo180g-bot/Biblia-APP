@@ -289,7 +289,7 @@ def actualizar(carpeta):
         if doc['id'] in ids:
             doc['id'] = slug(str(rel)[:-5])
         ids.add(doc['id'])
-        pars = sum(len(s['parrafos']) for s in doc['secciones'])
+        pars = sum(len(s.get('parrafos', [])) for s in doc.get('secciones', []))
         notas = sum(len(p.get('notas', [])) for s in doc['secciones'] for p in s['parrafos'])
         txt = json.dumps(doc, ensure_ascii=False, separators=(',', ':'))
         cambios += escribir(carpeta / 'datos' / f'{doc["id"]}.json', txt)
