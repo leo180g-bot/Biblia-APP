@@ -9,27 +9,5 @@
     "parrafos": 14,
     "size": 358069,
     "licencia": ""
-  },
-  {
-    "id": "confesion-westminster",
-    "titulo": "La Confesión de Fe de Westminster",
-    "idioma": "es",
-    "file": "datos/confesion-westminster.json",
-    "origen": "Confesion-Westminster.json",
-    "secciones": 2,
-    "parrafos": 1,
-    "size": 123499,
-    "licencia": ""
-  },
-  {
-    "id": "segunda-confesion-helvetica",
-    "titulo": "Segunda Confesión Helvética (1566)",
-    "idioma": "es",
-    "file": "datos/segunda-confesion-helvetica.json",
-    "origen": "Segunda-Confesion-Helvetica.json",
-    "secciones": 4,
-    "parrafos": 26,
-    "size": 245353,
-    "licencia": ""
   }
 ]
