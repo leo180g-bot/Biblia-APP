@@ -1,112 +1,13 @@
 [
   {
-    "id": "NVI_vid_128",
-    "titulo": "Confesión sin título",
+    "id": "confesion-bautista-1689",
+    "titulo": "Segunda Confesión Bautista de Fe de Londres (1689)",
     "idioma": "es",
-    "file": "NVI_vid_128.json",
-    "origen": "NVI_vid_128.json",
-    "secciones": 1,
-    "size": 7167812,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "RVSBT18",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "RVSBT18.json",
-    "origen": "RVSBT18.json",
-    "secciones": 1,
-    "size": 5875296,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "LBLA_vid_89",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "LBLA_vid_89.json",
-    "origen": "LBLA_vid_89.json",
-    "secciones": 1,
-    "size": 7165673,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "DHHS94_vid_1846",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "DHHS94_vid_1846.json",
-    "origen": "DHHS94_vid_1846.json",
-    "secciones": 1,
-    "size": 7989797,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "NBLA_vid_103",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "NBLA_vid_103.json",
-    "origen": "NBLA_vid_103.json",
-    "secciones": 1,
-    "size": 7185850,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "TLAI_vid_178",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "TLAI_vid_178.json",
-    "origen": "TLAI_vid_178.json",
-    "secciones": 1,
-    "size": 7564446,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "NVI_vid_1637",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "NVI_vid_1637.json",
-    "origen": "NVI_vid_1637.json",
-    "secciones": 1,
-    "size": 6851366,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "DHH94I_vid_52",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "DHH94I_vid_52.json",
-    "origen": "DHH94I_vid_52.json",
-    "secciones": 1,
-    "size": 8058898,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "RVR1960",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "RVR1960.json",
-    "origen": "RVR1960.json",
-    "secciones": 1,
-    "size": 6733557,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "TLA_vid_176",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "TLA_vid_176.json",
-    "origen": "TLA_vid_176.json",
-    "secciones": 1,
-    "size": 6597580,
-    "licencia": "Sin licencia especificada"
-  },
-  {
-    "id": "NTV_vid_127",
-    "titulo": "Confesión sin título",
-    "idioma": "es",
-    "file": "NTV_vid_127.json",
-    "origen": "NTV_vid_127.json",
-    "secciones": 1,
-    "size": 7521144,
-    "licencia": "Sin licencia especificada"
+    "file": "datos/confesion-bautista-1689.json",
+    "origen": "confesion-bautista-1689.json",
+    "secciones": 34,
+    "parrafos": 231,
+    "size": 156069,
+    "licencia": "Se otorga permiso expreso para reproducir este material por cualquier medio, siempre que no se cobre más que un monto nominal por el costo de la duplicación, se incluya esta nota de copyright y no se realice ninguna modificación al texto."
   }
 ]
