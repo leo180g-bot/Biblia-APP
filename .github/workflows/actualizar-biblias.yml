@@ -1,4 +1,4 @@
-name: Actualizar lista de Biblias
+name: Actualizar listas de Biblias y confesiones
 
 on:
   push:
@@ -18,14 +18,18 @@ jobs:
       - uses: actions/checkout@v4
       - name: Generar biblias.json
         run: python3 actualizar_biblias.py
+      - name: Generar catálogo de confesiones
+        run: |
+          if [ -d confesiones ]; then python3 actualizar_confesiones.py; fi
       - name: Guardar cambios
         run: |
           git config user.name "github-actions[bot]"
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git add biblias.json
+          if [ -d confesiones ]; then git add confesiones; fi
           if git diff --cached --quiet; then
             echo "Sin cambios"
           else
-            git commit -m "Actualizar lista de Biblias"
+            git commit -m "Actualizar listas de Biblias y confesiones"
             git push
           fi
