@@ -46,6 +46,15 @@ mark{background:var(--h1);color:inherit}
 .wel{max-width:560px;margin:8vh auto;text-align:center}
 .drop{border:2px dashed var(--bd);border-radius:14px;padding:28px;margin:18px 0}
 .ok{color:#2a8a3a}.bad{color:#c0392b}
+#conf{width:400px;flex:none;overflow-y:auto;border-left:1px solid var(--bd);background:var(--card);padding:0 14px 90px}
+#conf[hidden]{display:none}
+#conf .ch{display:flex;justify-content:space-between;align-items:center;gap:6px;position:sticky;top:0;background:var(--card);padding:10px 0 6px;z-index:2}
+#conf select{margin:6px 0}.cnav{display:flex;gap:6px;align-items:center}.cnav select{margin:0}
+.cp{margin:0 0 14px}.cp p{margin:0;font:calc(var(--fs)*.88)/1.6 var(--ff)}.pn{color:var(--acc);font:600 .8em system-ui;margin-right:5px}
+.cp sup{color:var(--acc);font:600 .65em system-ui}.cp details{margin-top:4px;font-size:13px;color:var(--mut)}.cp summary{cursor:pointer}
+.fnote{margin:2px 0}.cref{color:var(--acc);cursor:pointer;text-decoration:underline dotted}
+.lb>span:first-child{flex:1}
+@media(max-width:760px){#conf{position:fixed;right:0;top:calc(env(safe-area-inset-top,0px) + 46px);bottom:0;width:min(94vw,430px);z-index:7;box-shadow:-2px 0 12px #0003}}
 .lb{display:flex;justify-content:space-between;align-items:center;gap:8px;border:1px solid var(--bd);border-radius:8px;padding:8px 10px}.lb label{flex:1;cursor:pointer}.lb small{color:var(--mut);display:block}.wel .lb{text-align:left}
 #bar{flex-wrap:wrap;justify-content:center;max-width:94vw}
 .hd{font:600 .8em system-ui;color:var(--acc);margin:1.2em 0 .5em;text-align:center;text-transform:uppercase;letter-spacing:.04em}
@@ -57,9 +66,9 @@ mark{background:var(--h1);color:inherit}
 <body>
 <header>
 <button data-a="menu" title="Libros">☰</button><b>📖 Biblia</b><select id="tsel" title="Traducción" style="width:auto;padding:5px"></select>
-<button data-a="lib" title="Biblias">📚</button><button data-a="vod" title="Versículo del día">✨</button><button data-a="marks" title="Marcadores y notas">🔖</button><button data-a="search" title="Buscar">🔍</button><button data-a="par" title="Traducción paralela">⇆</button><button data-a="struct" title="Estructura del JSON">🧩</button><button data-a="set" title="Ajustes">Aa</button>
+<button data-a="lib" title="Biblias">📚</button><button data-a="conf" title="Confesiones de fe">📜</button><button data-a="vod" title="Versículo del día">✨</button><button data-a="marks" title="Marcadores y notas">🔖</button><button data-a="search" title="Buscar">🔍</button><button data-a="par" title="Traducción paralela">⇆</button><button data-a="struct" title="Estructura del JSON">🧩</button><button data-a="set" title="Ajustes">Aa</button>
 </header>
-<div id="app"><nav id="side"></nav><main id="main"></main></div>
+<div id="app"><nav id="side"></nav><main id="main"></main><aside id="conf" hidden></aside></div>
 <div id="bar" hidden>
 <button class="dot" style="background:var(--h1)" data-a="hl" data-c="1"></button><button class="dot" style="background:var(--h2)" data-a="hl" data-c="2"></button><button class="dot" style="background:var(--h3)" data-a="hl" data-c="3"></button><button class="dot" style="background:var(--h4)" data-a="hl" data-c="4"></button><button class="dot" data-a="hl" data-c="0" title="Quitar resaltado">∅</button>
 <button data-a="bm" title="Marcador">🔖</button><button data-a="note" title="Nota">📝</button><button data-a="copy" title="Copiar">📋</button><button data-a="share" title="Compartir">📤</button><button data-a="all" title="Todo el capítulo">▣</button><button data-a="clr">✕</button>
@@ -75,7 +84,7 @@ const BK=`Génesis|Genesis|gn,gen,ge
 Éxodo|Exodus|ex,exo,exod
 Levítico|Leviticus|lv,lev,le
 Números|Numbers|nm,num,nu
-Deuteronomio|Deuteronomy|dt,deut,de
+Deuteronomio|Deuteronomy|dt,deut,de,deu
 Josué|Joshua|jos,josh
 Jueces|Judges|jue,jdg,judg
 Rut|Ruth|rt,rut,ru
@@ -98,7 +107,7 @@ Jeremías|Jeremiah|jer,je
 Lamentaciones|Lamentations|lam,la
 Ezequiel|Ezekiel|ez,eze,ezek
 Daniel|Daniel|dn,dan,da
-Oseas|Hosea|os,hos
+Oseas|Hosea|os,hos,ose
 Joel|Joel|jl,joe
 Amós|Amos|am,amo
 Abdías|Obadiah|abd,oba,ob
@@ -113,7 +122,7 @@ Malaquías|Malachi|mal,ml
 Mateo|Matthew|mt,mat,matt
 Marcos|Mark|mr,mar,mc,mk
 Lucas|Luke|lc,luc,lk,lu
-Juan|John|jn,jhn,joh
+Juan|John|jn,jhn,joh,jua
 Hechos|Acts|hch,hec,ac,act,hechosdelosapostoles
 Romanos|Romans|ro,rom,rm
 1 Corintios|1 Corinthians|1co,1cor
@@ -226,7 +235,7 @@ function useTr(i){const t=S.trs[i];if(!t)return;
  const c=S.tr?{k:S.tr.books[S.bi].key,c:S.tr.books[S.bi].ch[S.ci].n}:ls.g('bib:pos2',null);
  S.tr=t;if(S.tr2===t)S.tr2=null;S.bi=0;S.ci=0;
  if(c){const bi=t.books.findIndex(b=>String(b.key)==String(c.k));if(bi>=0){S.bi=bi;const ci=t.books[bi].ch.findIndex(x=>String(x.n)==String(c.c));S.ci=ci>=0?ci:0}}
- tsel();side();main();savePos()}
+ tsel();side();main();savePos();if(typeof confRender=='function')confRender(true)}
 function load(d,fname,par,opt){
  const o=opt||{};
  const name=o.name||(d&&!Array.isArray(d)&&typeof d=='object'&&(d.translation||d.local_abbreviation||d.name||d.version||d.title))||fname.replace(/\.json$/i,'');
@@ -322,6 +331,13 @@ function act(a,el){const d=el.dataset;switch(a){
  case'prev':step(-1);break;case'next':step(1);break;
  case'struct':struct();break;case'set':settings();break;case'search':searchDlg();break;case'marks':marksDlg();break;case'vod':vod();break;
  case'close':D.close();break;
+ case'conf':togConf();break;case'cclose':togConf(false);break;
+ case'clib':S.cv=S.cv=='lib'?'read':'lib';confRender();break;
+ case'cget':cDl(d.id);break;
+ case'cdel':idb.del('c:'+d.id).then(()=>{delete S.cdocs[d.id];delete S.chave[d.id];if(S.cc==d.id)S.cc=null;confRender()});break;
+ case'cuse':S.cc=d.id;S.cs=0;S.cv='read';confRender();break;
+ case'cprev':case'cnext':{const n=S.cdocs[S.cc].secciones.length;S.cs=Math.max(0,Math.min(n-1,S.cs+(a=='cnext'?1:-1)));confRender();break}
+ case'cref':go(+d.b,+d.c,d.v);if(innerWidth<=760)togConf(false);break;
  case'lib':showLib();break;
  case'selall':(D.open?D:document).querySelectorAll('input[data-f]').forEach(x=>x.checked=true);break;
  case'dlsel':{const f=[...(D.open?D:document).querySelectorAll('input[data-f]:checked')].map(x=>x.dataset.f);if(!f.length)return toast('Marca al menos una Biblia');dlAll(f);break}
@@ -372,7 +388,7 @@ const SKIP=/(^|\/)(biblias|package|package-lock|manifest|composer|tsconfig)\.jso
 async function ghList(){const h=location.hostname,repo=location.pathname.split('/')[1];
  if(!/\.github\.io$/i.test(h)||!repo)return[];
  const r=await fetch(`https://api.github.com/repos/${h.split('.')[0]}/${repo}/git/trees/HEAD?recursive=1`);if(!r.ok)return[];
- return((await r.json()).tree||[]).filter(x=>x.type=='blob'&&/\.json$/i.test(x.path)&&!SKIP.test(x.path)&&!/(^|\/)(\.|node_modules)/.test(x.path)).map(x=>({file:x.path,name:x.path.split('/').pop().replace(/\.json$/i,''),title:'',lang:'',size:x.size,copy:''}))}
+ return((await r.json()).tree||[]).filter(x=>x.type=='blob'&&/\.json$/i.test(x.path)&&!SKIP.test(x.path)&&!/(^|\/)(\.|node_modules)/.test(x.path)&&!/^confesiones\//i.test(x.path)).map(x=>({file:x.path,name:x.path.split('/').pop().replace(/\.json$/i,''),title:'',lang:'',size:x.size,copy:''}))}
 async function getMan(){
  let man=[],api=[];
  try{const r=await fetch('biblias.json',{cache:'no-cache'});if(r.ok){const j=await r.json();man=Array.isArray(j)?j:(j.biblias||[])}}catch(e){}
@@ -389,6 +405,46 @@ applySet();S.ld=1;side();main();$('#tsel').onchange=e=>useTr(+e.target.value);
  const keys=await idb.keys();
  for(const m of S.man){if(!keys.includes(m.file))continue;const r=await idb.get(m.file);try{load(JSON.parse(r.text),m.file,0,{name:m.name,title:m.title,copy:m.copy,quiet:1});S.have[m.file]=r.size}catch(e){}}
  S.ld=0;if(S.trs.length){const p=ls.g('bib:pos2',null);useTr(Math.max(0,S.trs.findIndex(x=>x.name==(p&&p.t))))}else main()})();
+/* ---------- Confesiones de fe (panel derecho) ---------- */
+S.cat=[];S.cdocs={};S.chave={};S.cc=null;S.cs=0;S.cv='read';S.cerr='';
+document.addEventListener('change',e=>{const t=e.target;if(t.id=='csel'){S.cs=+t.value;confRender()}if(t.id=='cdoc'){S.cc=t.value;S.cs=0;confRender()}});
+function togConf(v){const el=$('#conf'),show=v===undefined?el.hidden:v;el.hidden=!show;ls.s('bib:confopen',show);if(show)confRender()}
+function refLinks(t){let out='',last=0,m;const re=/((?:[123]\s?)?[A-Za-zÁÉÍÓÚÑáéíóúñ]{2,10})\.?\s*(\d{1,3}):(\d{1,3})((?:\s*[-–,]\s*\d{1,3}(?!\d*:))*)/g;
+ while(m=re.exec(t)){const id=look(m[1]),T=S.tr;let bi=-1,ci=-1;
+  if(id>=0&&T){bi=T.books.findIndex(b=>b.id==id);if(bi>=0)ci=T.books[bi].ch.findIndex(c=>String(c.n)==m[2])}
+  out+=esc(t.slice(last,m.index))+(ci>=0?`<a class="cref" data-a="cref" data-b="${bi}" data-c="${ci}" data-v="${m[3]}">${esc(m[0])}</a>`:esc(m[0]));last=m.index+m[0].length}
+ return out+esc(t.slice(last))}
+const fnotes=a=>a.map(n=>`<div class="fnote"><sup>${esc(n.n)}</sup> ${refLinks(n.t)}</div>`).join('');
+const cpar=p=>`<div class="cp"><p>${p.n?`<span class="pn">${esc(p.n)}</span>`:''}${esc(p.t).replace(/\[\[(\d+)\]\]/g,'<sup>$1</sup>')}</p>${p.notas&&p.notas.length?`<details><summary>Textos de prueba (${p.notas.length})</summary>${fnotes(p.notas)}</details>`:''}</div>`;
+function cLib(n){if(!S.cat.length)return S.cerr||'<p style="color:var(--mut)">Cargando…</p>';
+ return`<p style="color:var(--mut)">${n?'Descarga o quita confesiones.':'Elige las confesiones que quieres descargar. Se guardan en tu dispositivo.'}</p>`+S.cat.map(c=>{const h=S.chave[c.id]!==undefined,up=h&&c.size&&S.chave[c.id]!==c.size;
+  return`<div class="r lb"><span><b>${esc(c.titulo)}</b><small>${(c.size/1e3).toFixed(0)} KB · ${c.secciones} secciones · <span data-cg="${esc(c.id)}">${h?(up?'Actualización disponible':'✓ Descargada'):'No descargada'}</span></small></span><span>${h?`<button data-a="cuse" data-id="${esc(c.id)}">Leer</button> `:''}${!h||up?`<button data-a="cget" data-id="${esc(c.id)}">${up?'Actualizar':'⬇ Descargar'}</button> `:''}${h?`<button data-a="cdel" data-id="${esc(c.id)}" title="Quitar de este dispositivo">🗑</button>`:''}</span></div>`}).join('')+(n?'<p><button data-a="clib">Volver a la lectura</button></p>':'')}
+function confRender(keep){const el=$('#conf');if(el.hidden)return;
+ const docs=S.cat.filter(c=>S.cdocs[c.id]);
+ if(S.cv=='lib'||!docs.length){el.innerHTML='<div class="ch"><b>📜 Confesiones de fe</b><button data-a="cclose" title="Ocultar">✕</button></div>'+cLib(docs.length);return}
+ if(!S.cdocs[S.cc])S.cc=docs[0].id;
+ const doc=S.cdocs[S.cc],i=Math.min(S.cs,doc.secciones.length-1),sec=doc.secciones[i];S.cs=i;
+ el.innerHTML=`<div class="ch"><b>📜 Confesiones</b><span><button data-a="clib" title="Descargar o quitar confesiones">⬇</button> <button data-a="cclose" title="Ocultar">✕</button></span></div>
+ ${docs.length>1?`<select id="cdoc">${docs.map(c=>`<option value="${esc(c.id)}"${c.id==S.cc?' selected':''}>${esc(c.titulo)}</option>`).join('')}</select>`:`<div class="sub" style="margin:4px 0 8px">${esc(doc.titulo)}</div>`}
+ <div class="cnav"><button data-a="cprev">‹</button><select id="csel">${doc.secciones.map((s,j)=>`<option value="${j}"${j==i?' selected':''}>${esc((s.numero?s.numero+'. ':'')+s.titulo)}</option>`).join('')}</select><button data-a="cnext">›</button></div>
+ <h3 style="margin:14px 0 8px">${esc((sec.numero?'Capítulo '+sec.numero+' — ':'')+sec.titulo)}</h3>
+ ${sec.parrafos.map(cpar).join('')}${sec.notas_extra&&sec.notas_extra.length?`<details class="cp"><summary>Otros textos de prueba</summary>${fnotes(sec.notas_extra)}</details>`:''}
+ ${doc.licencia?`<p style="color:var(--mut);font-size:12px">${esc(doc.licencia)}</p>`:''}`;
+ if(!keep)el.scrollTop=0;ls.s('bib:conf2',{c:S.cc,s:S.cs})}
+async function cDl(id){const c=S.cat.find(x=>x.id==id);if(!c)return;
+ const st=t=>document.querySelectorAll(`[data-cg="${id}"]`).forEach(e=>e.textContent=t);st('Descargando…');
+ try{const r=await fetch('confesiones/'+c.file.split('/').map(encodeURIComponent).join('/'),{cache:'no-cache'});if(!r.ok)throw new Error('HTTP '+r.status);
+  const text=await r.text(),doc=JSON.parse(text);if(!doc.secciones)throw new Error('formato no válido');
+  S.cdocs[id]=doc;S.chave[id]=c.size;await idb.set('c:'+id,{size:c.size,text});
+  if(Object.keys(S.cdocs).length==1){S.cc=id;S.cs=0;S.cv='read'}
+  confRender();toast('Confesión descargada')}catch(e){st('Error: '+e.message)}}
+async function initConf(){
+ try{const r=await fetch('confesiones/catalogo.json',{cache:'no-cache'});if(!r.ok)throw 0;S.cat=await r.json()}catch(e){S.cerr='<p>No encontré <b>confesiones/catalogo.json</b>. Ejecuta <b>python3 actualizar_confesiones.py</b> y publica de nuevo. Recuerda que la página debe abrirse desde un servidor web (por ejemplo GitHub Pages).</p>'}
+ const keys=await idb.keys();
+ for(const c of S.cat){if(!keys.includes('c:'+c.id))continue;const r=await idb.get('c:'+c.id);try{S.cdocs[c.id]=JSON.parse(r.text);S.chave[c.id]=r.size}catch(e){}}
+ const p=ls.g('bib:conf2',null);if(p&&S.cdocs[p.c]){S.cc=p.c;S.cs=p.s||0}
+ if(ls.g('bib:confopen',false))togConf(true);else confRender()}
+initConf();
 </script>
 </body>
 </html>

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-Genera biblias.json: la lista (catálogo) de Biblias .json de la carpeta y TODAS sus subcarpetas.
+Genera biblias.json: la lista (catálogo) de Biblias .json de la carpeta y TODAS sus subcarpetas
+(excepto la carpeta "confesiones", que usa actualizar_confesiones.py).
 index.html lee esa lista y deja que cada usuario elija cuáles descargar.
 
 Uso:
@@ -52,7 +53,7 @@ def es_biblia(d, prof=0):
 def archivos(carpeta):
     for p in sorted(carpeta.rglob('*.json'), key=lambda p: str(p).lower()):
         rel = p.relative_to(carpeta)
-        if any(x.startswith('.') or x == 'node_modules' for x in rel.parts[:-1]):
+        if any(x.startswith('.') or x in ('node_modules', 'confesiones') for x in rel.parts[:-1]):
             continue
         if p.name.lower() in IGNORAR:
             continue
