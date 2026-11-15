@@ -50,7 +50,7 @@ mark{background:var(--h1);color:inherit}
 #conf[hidden]{display:none}
 #conf .ch{display:flex;justify-content:space-between;align-items:center;gap:6px;position:sticky;top:0;background:var(--card);padding:10px 0 6px;z-index:2}
 #conf select{margin:6px 0}.cnav{display:flex;gap:6px;align-items:center}.cnav select{margin:0}
-.cp{margin:0 0 14px}.cp p{margin:0;font:calc(var(--fs)*.88)/1.6 var(--ff)}.pn{color:var(--acc);font:600 .8em system-ui;margin-right:5px}
+.cp .cq{margin:0 0 3px;font:calc(var(--fs)*.88)/1.5 var(--ff)}.cp{margin:0 0 14px}.cp p{margin:0;font:calc(var(--fs)*.88)/1.6 var(--ff)}.pn{color:var(--acc);font:600 .8em system-ui;margin-right:5px}
 .cp sup{color:var(--acc);font:600 .65em system-ui}.cp details{margin-top:4px;font-size:13px;color:var(--mut)}.cp summary{cursor:pointer}
 .fnote{margin:2px 0}.cref{color:var(--acc);cursor:pointer;text-decoration:underline dotted}
 .lb>span:first-child{flex:1}
@@ -66,7 +66,7 @@ mark{background:var(--h1);color:inherit}
 <body>
 <header>
 <button data-a="menu" title="Libros">☰</button><b>📖 Biblia</b><select id="tsel" title="Traducción" style="width:auto;padding:5px"></select>
-<button data-a="lib" title="Biblias">📚</button><button data-a="conf" title="Confesiones de fe">📜</button><button data-a="vod" title="Versículo del día">✨</button><button data-a="marks" title="Marcadores y notas">🔖</button><button data-a="search" title="Buscar">🔍</button><button data-a="par" title="Traducción paralela">⇆</button><button data-a="struct" title="Estructura del JSON">🧩</button><button data-a="set" title="Ajustes">Aa</button>
+<button data-a="lib" title="Biblias">📚</button><button data-a="conf" title="Confesiones, catecismos y credos">📜</button><button data-a="vod" title="Versículo del día">✨</button><button data-a="marks" title="Marcadores y notas">🔖</button><button data-a="search" title="Buscar">🔍</button><button data-a="par" title="Traducción paralela">⇆</button><button data-a="struct" title="Estructura del JSON">🧩</button><button data-a="set" title="Ajustes">Aa</button>
 </header>
 <div id="app"><nav id="side"></nav><main id="main"></main><aside id="conf" hidden></aside></div>
 <div id="bar" hidden>
@@ -385,10 +385,11 @@ async function dlAll(fs){let ok=0;
  if(!ok)return;
  if(!S.tr&&S.trs.length){D.open&&D.close();useTr(0)}else{tsel();if(S.tr){side();main()}refreshLib();toast(ok+' Biblia(s) lista(s)')}}
 const SKIP=/(^|\/)(biblias|package|package-lock|manifest|composer|tsconfig)\.json$/i;
-async function ghList(){const h=location.hostname,repo=location.pathname.split('/')[1];
+let _gt;
+function ghTree(){return _gt||(_gt=(async()=>{const h=location.hostname,repo=location.pathname.split('/')[1];
  if(!/\.github\.io$/i.test(h)||!repo)return[];
- const r=await fetch(`https://api.github.com/repos/${h.split('.')[0]}/${repo}/git/trees/HEAD?recursive=1`);if(!r.ok)return[];
- return((await r.json()).tree||[]).filter(x=>x.type=='blob'&&/\.json$/i.test(x.path)&&!SKIP.test(x.path)&&!/(^|\/)(\.|node_modules)/.test(x.path)&&!/^confesiones\//i.test(x.path)).map(x=>({file:x.path,name:x.path.split('/').pop().replace(/\.json$/i,''),title:'',lang:'',size:x.size,copy:''}))}
+ try{const r=await fetch(`https://api.github.com/repos/${h.split('.')[0]}/${repo}/git/trees/HEAD?recursive=1`);return r.ok?((await r.json()).tree||[]):[]}catch(e){return[]}})())}
+async function ghList(){return(await ghTree()).filter(x=>x.type=='blob'&&/\.json$/i.test(x.path)&&!SKIP.test(x.path)&&!/(^|\/)(\.|node_modules)/.test(x.path)&&!/^confesiones\//i.test(x.path)).map(x=>({file:x.path,name:x.path.split('/').pop().replace(/\.json$/i,''),title:'',lang:'',size:x.size,copy:''}))}
 async function getMan(){
  let man=[],api=[];
  try{const r=await fetch('biblias.json',{cache:'no-cache'});if(r.ok){const j=await r.json();man=Array.isArray(j)?j:(j.biblias||[])}}catch(e){}
@@ -414,17 +415,20 @@ function refLinks(t){let out='',last=0,m;const re=/((?:[123]\s?)?[A-Za-zÁÉÍÓ
   if(id>=0&&T){bi=T.books.findIndex(b=>b.id==id);if(bi>=0)ci=T.books[bi].ch.findIndex(c=>String(c.n)==m[2])}
   out+=esc(t.slice(last,m.index))+(ci>=0?`<a class="cref" data-a="cref" data-b="${bi}" data-c="${ci}" data-v="${m[3]}">${esc(m[0])}</a>`:esc(m[0]));last=m.index+m[0].length}
  return out+esc(t.slice(last))}
-const fnotes=a=>a.map(n=>`<div class="fnote"><sup>${esc(n.n)}</sup> ${refLinks(n.t)}</div>`).join('');
-const cpar=p=>`<div class="cp"><p>${p.n?`<span class="pn">${esc(p.n)}</span>`:''}${esc(p.t).replace(/\[\[(\d+)\]\]/g,'<sup>$1</sup>')}</p>${p.notas&&p.notas.length?`<details><summary>Textos de prueba (${p.notas.length})</summary>${fnotes(p.notas)}</details>`:''}</div>`;
+const fnotes=a=>a.map(n=>`<div class="fnote"><sup>${esc(n.n)}</sup> ${refLinks(n.t).replace(/&lt;(\/?)i&gt;/g,'<$1i>')}</div>`).join('');
+const cpar=p=>`<div class="cp">${p.q?`<p class="cq"><span class="pn">${esc(p.n)}</span><b>${esc(p.q)}</b></p>`:''}<p>${p.n&&!p.q?`<span class="pn">${esc(p.n)}</span>`:''}${esc(p.t).replace(/\[\[(\d+)\]\]/g,'<sup>$1</sup>').replace(/&lt;(\/?)i&gt;/g,'<$1i>')}</p>${p.notas&&p.notas.length?`<details><summary>Textos de prueba (${p.notas.length})</summary>${fnotes(p.notas)}</details>`:''}</div>`;
+const TIPOS=[['confesion','Confesiones de fe'],['catecismo','Catecismos'],['credo','Credos']];
+const tipoDe=c=>c.tipo||(/catecism|catechism/i.test(c.id)?'catecismo':/credo|creed/i.test(c.id)?'credo':'confesion');
+function cItem(c){const h=S.chave[c.id]!==undefined,up=h&&c.size&&S.chave[c.id]!==c.size;
+ return`<div class="r lb"><span><b>${esc(c.titulo)}</b><small>${c.size?(c.size/1e3).toFixed(0)+' KB · ':''}${c.secciones?c.secciones+' secciones · ':''}<span data-cg="${esc(c.id)}">${h?(up?'Actualización disponible':'✓ Descargada'):'No descargada'}</span></small></span><span>${h?`<button data-a="cuse" data-id="${esc(c.id)}">Leer</button> `:''}${!h||up?`<button data-a="cget" data-id="${esc(c.id)}">${up?'Actualizar':'⬇ Descargar'}</button> `:''}${h?`<button data-a="cdel" data-id="${esc(c.id)}" title="Quitar de este dispositivo">🗑</button>`:''}</span></div>`}
 function cLib(n){if(!S.cat.length)return S.cerr||'<p style="color:var(--mut)">Cargando…</p>';
- return`<p style="color:var(--mut)">${n?'Descarga o quita confesiones.':'Elige las confesiones que quieres descargar. Se guardan en tu dispositivo.'}</p>`+S.cat.map(c=>{const h=S.chave[c.id]!==undefined,up=h&&c.size&&S.chave[c.id]!==c.size;
-  return`<div class="r lb"><span><b>${esc(c.titulo)}</b><small>${(c.size/1e3).toFixed(0)} KB · ${c.secciones} secciones · <span data-cg="${esc(c.id)}">${h?(up?'Actualización disponible':'✓ Descargada'):'No descargada'}</span></small></span><span>${h?`<button data-a="cuse" data-id="${esc(c.id)}">Leer</button> `:''}${!h||up?`<button data-a="cget" data-id="${esc(c.id)}">${up?'Actualizar':'⬇ Descargar'}</button> `:''}${h?`<button data-a="cdel" data-id="${esc(c.id)}" title="Quitar de este dispositivo">🗑</button>`:''}</span></div>`}).join('')+(n?'<p><button data-a="clib">Volver a la lectura</button></p>':'')}
+ return`<p style="color:var(--mut)">${n?'Descarga o quita textos.':'Elige lo que quieres descargar. Se guarda en tu dispositivo.'}</p>`+TIPOS.map(([k,l])=>{const it=S.cat.filter(c=>tipoDe(c)==k);return it.length?`<h4 style="margin:14px 0 4px;color:var(--mut)">${l}</h4>`+it.map(cItem).join(''):''}).join('')+(n?'<p><button data-a="clib">Volver a la lectura</button></p>':'')}
 function confRender(keep){const el=$('#conf');if(el.hidden)return;
  const docs=S.cat.filter(c=>S.cdocs[c.id]);
- if(S.cv=='lib'||!docs.length){el.innerHTML='<div class="ch"><b>📜 Confesiones de fe</b><button data-a="cclose" title="Ocultar">✕</button></div>'+cLib(docs.length);return}
+ if(S.cv=='lib'||!docs.length){el.innerHTML='<div class="ch"><b>📜 Textos de fe</b><button data-a="cclose" title="Ocultar">✕</button></div>'+cLib(docs.length);return}
  if(!S.cdocs[S.cc])S.cc=docs[0].id;
  const doc=S.cdocs[S.cc],i=Math.min(S.cs,doc.secciones.length-1),sec=doc.secciones[i];S.cs=i;
- el.innerHTML=`<div class="ch"><b>📜 Confesiones</b><span><button data-a="clib" title="Descargar o quitar confesiones">⬇</button> <button data-a="cclose" title="Ocultar">✕</button></span></div>
+ el.innerHTML=`<div class="ch"><b>📜 Textos de fe</b><span><button data-a="clib" title="Descargar o quitar textos">⬇</button> <button data-a="cclose" title="Ocultar">✕</button></span></div>
  ${docs.length>1?`<select id="cdoc">${docs.map(c=>`<option value="${esc(c.id)}"${c.id==S.cc?' selected':''}>${esc(c.titulo)}</option>`).join('')}</select>`:`<div class="sub" style="margin:4px 0 8px">${esc(doc.titulo)}</div>`}
  <div class="cnav"><button data-a="cprev">‹</button><select id="csel">${doc.secciones.map((s,j)=>`<option value="${j}"${j==i?' selected':''}>${esc((s.numero?s.numero+'. ':'')+s.titulo)}</option>`).join('')}</select><button data-a="cnext">›</button></div>
  <h3 style="margin:14px 0 8px">${esc((sec.numero?'Capítulo '+sec.numero+' — ':'')+sec.titulo)}</h3>
@@ -442,7 +446,11 @@ async function cDl(id){const c=S.cat.find(x=>x.id==id);if(!c)return;
   if(Object.keys(S.cdocs).length==1){S.cc=id;S.cs=0;S.cv='read'}
   confRender();toast('Confesión descargada')}catch(e){st('Error: '+e.message)}}
 async function initConf(){
- try{const r=await fetch('confesiones/catalogo.json',{cache:'no-cache'});if(!r.ok)throw 0;S.cat=await r.json()}catch(e){S.cerr='<p>No encontré <b>confesiones/catalogo.json</b>. Ejecuta <b>python3 actualizar_confesiones.py</b> y publica de nuevo. Recuerda que la página debe abrirse desde un servidor web (por ejemplo GitHub Pages).</p>'}
+ try{const r=await fetch('confesiones/catalogo.json',{cache:'no-cache'});if(r.ok){const j=await r.json();S.cat=Array.isArray(j)?j:[]}}catch(e){}
+ try{const have=new Set(S.cat.map(c=>c.file));   // también aparecen las confesiones ya procesadas que falten en el catálogo
+  (await ghTree()).filter(x=>x.type=='blob'&&/^confesiones\/datos\/[^\/]+\.json$/i.test(x.path)).forEach(x=>{const f=x.path.slice(12);
+   if(!have.has(f)){const b=f.split('/').pop().replace(/\.json$/i,'');S.cat.push({id:b,titulo:b.replace(/[-_]+/g,' ').replace(/^./,c=>c.toUpperCase()),file:f,size:x.size,secciones:0,parrafos:0})}})}catch(e){}
+ if(!S.cat.length)S.cerr='<p>No encontré confesiones. Pon el PDF en <b>confesiones/</b>, ejecuta <b>python3 actualizar_confesiones.py</b> (o espera a GitHub Actions) y sube <b>confesiones/catalogo.json</b> y la carpeta <b>confesiones/datos/</b>. La página debe abrirse desde un servidor web (por ejemplo GitHub Pages).</p>';
  const keys=await idb.keys();
  for(const c of S.cat){if(!keys.includes('c:'+c.id))continue;const r=await idb.get('c:'+c.id);try{S.cdocs[c.id]=JSON.parse(r.text);S.chave[c.id]=r.size}catch(e){}}
  const p=ls.g('bib:conf2',null);if(p&&S.cdocs[p.c]){S.cc=p.c;S.cs=p.s||0}
