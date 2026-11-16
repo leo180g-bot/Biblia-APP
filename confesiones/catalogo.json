@@ -11,6 +11,17 @@
     "licencia": "Texto de la traducción contenida en el PDF fuente '7._Los_Cánones_del_Sínodo_de_Dort_1618-1619.pdf'."
   },
   {
+    "id": "catecismo-bautista-beddome",
+    "titulo": "Una exposición bíblica del Catecismo Bautista (Benjamin Beddome)",
+    "idioma": "es",
+    "file": "datos/catecismo-bautista-beddome.json",
+    "origen": "catecismo-bautista-beddome.json",
+    "secciones": 121,
+    "parrafos": 917,
+    "size": 600970,
+    "licencia": "© Editorial Legado Bautista Confesional (Santo Domingo, Ecuador, 2021). Traducción al español: Jorge A. Rodríguez Vega. Se otorga permiso expreso para reproducir este material por cualquier medio, siempre que no se cobre más que un monto nominal por el costo de la duplicación, se incluya esta nota de copyright y no se realice ninguna modificación al texto."
+  },
+  {
     "id": "confesion-bautista-1689",
     "titulo": "La Confesión de Fe Bautista de 1677/89",
     "idioma": "es",
