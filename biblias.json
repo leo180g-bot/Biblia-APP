@@ -1,125 +1,5 @@
 [
   {
-    "file": "ACF.json",
-    "name": "ACF",
-    "title": "",
-    "lang": "",
-    "size": 4025384,
-    "copy": ""
-  },
-  {
-    "file": "ARA.json",
-    "name": "ARA",
-    "title": "",
-    "lang": "",
-    "size": 3987524,
-    "copy": ""
-  },
-  {
-    "file": "ARC.json",
-    "name": "ARC",
-    "title": "",
-    "lang": "",
-    "size": 4024575,
-    "copy": ""
-  },
-  {
-    "file": "AS21.json",
-    "name": "AS21",
-    "title": "",
-    "lang": "",
-    "size": 3939655,
-    "copy": ""
-  },
-  {
-    "file": "DHH94I_vid_52.json",
-    "name": "DHH94I",
-    "title": "Biblia Dios Habla Hoy",
-    "lang": "Español (América Latina)",
-    "size": 8058898,
-    "copy": "Texto © Sociedades Bíblicas Unidas, 1994."
-  },
-  {
-    "file": "DHHS94_vid_1846.json",
-    "name": "DHHS94",
-    "title": "Dios habla Hoy Estándar",
-    "lang": "Español (América Latina)",
-    "size": 7989797,
-    "copy": "Bible text: LA BIBLIA DIOS HABLA HOY, Tercera edición © Sociedades Bíblicas Unidas 1966, 1970, 1979, 1983, 1994, 1996 Todos los derechos reservados. www.unitedbiblesocieties.org/"
-  },
-  {
-    "file": "JFAA.json",
-    "name": "JFAA",
-    "title": "",
-    "lang": "",
-    "size": 4024395,
-    "copy": ""
-  },
-  {
-    "file": "KJF.json",
-    "name": "KJF",
-    "title": "",
-    "lang": "",
-    "size": 4177832,
-    "copy": ""
-  },
-  {
-    "file": "LBLA_vid_89.json",
-    "name": "LBLA",
-    "title": "La Biblia de las Américas",
-    "lang": "Español (América Latina)",
-    "size": 7165673,
-    "copy": "1986, 1995, 1997 by The Lockman Foundation"
-  },
-  {
-    "file": "NAA.json",
-    "name": "NAA",
-    "title": "",
-    "lang": "",
-    "size": 4173181,
-    "copy": ""
-  },
-  {
-    "file": "NBLA_vid_103.json",
-    "name": "NBLA",
-    "title": "Nueva Biblia de las Américas",
-    "lang": "Español (América Latina)",
-    "size": 7185850,
-    "copy": "1986, 1995, 1997, 2005 by The Lockman Foundation"
-  },
-  {
-    "file": "NTV_vid_127.json",
-    "name": "NTV",
-    "title": "Nueva Traducción Viviente",
-    "lang": "Español (América Latina)",
-    "size": 7521144,
-    "copy": "Santa Biblia, Nueva Traducción Viviente, copyright © 2010 by Tyndale House Foundation. Used by permission of Tyndale House Publishers, a Division of Tyndale House Ministries, Carol Stream, Illinois 60188. All rights reserved."
-  },
-  {
-    "file": "NVI.json",
-    "name": "NVI",
-    "title": "",
-    "lang": "",
-    "size": 4041724,
-    "copy": ""
-  },
-  {
-    "file": "NVI_vid_128.json",
-    "name": "NVI_vid_128",
-    "title": "Nueva Versión Internacional - Español",
-    "lang": "Español (América Latina)",
-    "size": 7167812,
-    "copy": "Santa Biblia, Nueva Versión Internacional® NVI® © 1999, 2015, 2022 por Biblica, Inc. Usado con permiso. Reservados todos los derechos en todo el mundo."
-  },
-  {
-    "file": "NVI_vid_1637.json",
-    "name": "NVI_vid_1637",
-    "title": "Nueva Versión Internacional - Castellano",
-    "lang": "Español (España)",
-    "size": 6851366,
-    "copy": "Santa Biblia, NUEVA VERSIÓN INTERNACIONAL® NVI® (Castellano) © 1999, 2005, 2017 por Biblica, Inc.® Usado con permiso de Biblica, Inc.® Reservados todos los derechos en todo el mundo."
-  },
-  {
     "file": "RVR1960.json",
     "name": "RVR1960",
     "title": "Biblia Reina Valera 1960",
@@ -130,25 +10,9 @@
   {
     "file": "RVSBT18.json",
     "name": "RVSBT18",
-    "title": "",
-    "lang": "",
+    "title": "Biblia Reina Valera SBT 2018",
+    "lang": "Español",
     "size": 5875296,
     "copy": ""
-  },
-  {
-    "file": "TLA_vid_176.json",
-    "name": "TLA",
-    "title": "Traducción en Lenguaje Actual",
-    "lang": "Español (América Latina)",
-    "size": 6597580,
-    "copy": "Traducción en lenguaje actual ® © Sociedades Bíblicas Unidas, 2002, 2004."
-  },
-  {
-    "file": "TLAI_vid_178.json",
-    "name": "TLAI",
-    "title": "Traducción en Lenguaje Actual Interconfesional",
-    "lang": "Español (América Latina)",
-    "size": 7564446,
-    "copy": "Traducción en lenguaje actual ® © Sociedades Bíblicas Unidas, 2002, 2004."
   }
 ]
