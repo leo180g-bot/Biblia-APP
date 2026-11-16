@@ -416,7 +416,7 @@ function refLinks(t){let out='',last=0,m;const re=/((?:[123]\s?)?[A-Za-zÁÉÍÓ
   out+=esc(t.slice(last,m.index))+(ci>=0?`<a class="cref" data-a="cref" data-b="${bi}" data-c="${ci}" data-v="${m[3]}">${esc(m[0])}</a>`:esc(m[0]));last=m.index+m[0].length}
  return out+esc(t.slice(last))}
 const fnotes=a=>a.map(n=>`<div class="fnote"><sup>${esc(n.n)}</sup> ${refLinks(n.t).replace(/&lt;(\/?)i&gt;/g,'<$1i>')}</div>`).join('');
-const cpar=p=>`<div class="cp">${p.q?`<p class="cq"><span class="pn">${esc(p.n)}</span><b>${esc(p.q)}</b></p>`:''}<p>${p.n&&!p.q?`<span class="pn">${esc(p.n)}</span>`:''}${esc(p.t).replace(/\[\[(\d+)\]\]/g,'<sup>$1</sup>').replace(/&lt;(\/?)i&gt;/g,'<$1i>')}</p>${p.notas&&p.notas.length?`<details><summary>Textos de prueba (${p.notas.length})</summary>${fnotes(p.notas)}</details>`:''}</div>`;
+const cpar=p=>`<div class="cp">${p.q?`<p class="cq"><span class="pn">${esc(p.n)}</span><b>${esc(p.q)}</b></p>`:''}<p>${p.n&&!p.q?`<span class="pn">${esc(p.n)}</span>`:''}${refLinks(p.t).replace(/\[\[(\d+)\]\]/g,'<sup>$1</sup>').replace(/&lt;(\/?)i&gt;/g,'<$1i>')}</p>${p.notas&&p.notas.length?`<details><summary>Textos de prueba (${p.notas.length})</summary>${fnotes(p.notas)}</details>`:''}</div>`;
 const TIPOS=[['confesion','Confesiones de fe'],['catecismo','Catecismos'],['credo','Credos']];
 const tipoDe=c=>c.tipo||(/catecism|catechism/i.test(c.id)?'catecismo':/credo|creed/i.test(c.id)?'credo':'confesion');
 function cItem(c){const h=S.chave[c.id]!==undefined,up=h&&c.size&&S.chave[c.id]!==c.size;
@@ -431,7 +431,7 @@ function confRender(keep){const el=$('#conf');if(el.hidden)return;
  el.innerHTML=`<div class="ch"><b>📜 Textos de fe</b><span><button data-a="clib" title="Descargar o quitar textos">⬇</button> <button data-a="cclose" title="Ocultar">✕</button></span></div>
  ${docs.length>1?`<select id="cdoc">${docs.map(c=>`<option value="${esc(c.id)}"${c.id==S.cc?' selected':''}>${esc(c.titulo)}</option>`).join('')}</select>`:`<div class="sub" style="margin:4px 0 8px">${esc(doc.titulo)}</div>`}
  <div class="cnav"><button data-a="cprev">‹</button><select id="csel">${doc.secciones.map((s,j)=>`<option value="${j}"${j==i?' selected':''}>${esc((s.numero?s.numero+'. ':'')+s.titulo)}</option>`).join('')}</select><button data-a="cnext">›</button></div>
- <h3 style="margin:14px 0 8px">${esc((sec.numero?'Capítulo '+sec.numero+' — ':'')+sec.titulo)}</h3>
+ <h3 style="margin:14px 0 8px">${esc((sec.numero?(sec.tipo=='pregunta'?'Pregunta ':'Capítulo ')+sec.numero+' — ':'')+sec.titulo)}</h3>
  ${sec.parrafos.map(cpar).join('')}${sec.notas_extra&&sec.notas_extra.length?`<details class="cp"><summary>Otros textos de prueba</summary>${fnotes(sec.notas_extra)}</details>`:''}
  ${doc.licencia?`<p style="color:var(--mut);font-size:12px">${esc(doc.licencia)}</p>`:''}`;
  if(!keep)el.scrollTop=0;ls.s('bib:conf2',{c:S.cc,s:S.cs})}

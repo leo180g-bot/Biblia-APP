@@ -1,13 +1,26 @@
 [
   {
+    "id": "catecismo-bautista-beddome",
+    "tipo": "catecismo",
+    "titulo": "Una exposición bíblica del Catecismo Bautista (Benjamin Beddome)",
+    "idioma": "es",
+    "file": "datos/catecismo-bautista-beddome.json",
+    "origen": "catecismo-bautista-beddome.json",
+    "secciones": 121,
+    "parrafos": 917,
+    "size": 600989,
+    "licencia": "© Editorial Legado Bautista Confesional (Santo Domingo, Ecuador, 2021). Traducción al español: Jorge A. Rodríguez Vega. Se otorga permiso expreso para reproducir este material por cualquier medio, siempre que no se cobre más que un monto nominal por el costo de la duplicación, se incluya esta nota de copyright y no se realice ninguna modificación al texto."
+  },
+  {
     "id": "confesion-bautista-1689",
+    "tipo": "confesion",
     "titulo": "Segunda Confesión Bautista de Fe de Londres (1689)",
     "idioma": "es",
     "file": "datos/confesion-bautista-1689.json",
-    "origen": "confesion-bautista-1689.json",
+    "origen": "confesion-bautista-1689.pdf",
     "secciones": 34,
-    "parrafos": 231,
-    "size": 156069,
+    "parrafos": 208,
+    "size": 157825,
     "licencia": "Se otorga permiso expreso para reproducir este material por cualquier medio, siempre que no se cobre más que un monto nominal por el costo de la duplicación, se incluya esta nota de copyright y no se realice ninguna modificación al texto."
   }
 ]
