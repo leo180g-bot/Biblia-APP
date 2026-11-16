@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 """
 Genera biblias.json: la lista (catálogo) de Biblias .json de la carpeta y TODAS sus subcarpetas
-(excepto la carpeta "confesiones", que usa actualizar_confesiones.py).
+(excepto la carpeta "confesiones" y los archivos cuyo nombre contenga catalogo, confesion, catecismo o credo,
+que usa actualizar_confesiones.py).
 index.html lee esa lista y deja que cada usuario elija cuáles descargar.
 
 Uso:
@@ -16,6 +17,7 @@ import argparse, json, re, sys, time, unicodedata
 from pathlib import Path
 
 IGNORAR = {'biblias.json', 'package.json', 'package-lock.json', 'manifest.json', 'composer.json', 'tsconfig.json'}
+NO_BIBLIA = re.compile(r'catalogo|confesion|catecism|credo', re.I)     # catálogos y textos de fe: los maneja actualizar_confesiones.py
 NOMBRES = {'genesis', 'exodo', 'levitico', 'numeros', 'mateo', 'marcos', 'lucas', 'juan', 'matthew', 'mark',
            'luke', 'john', 'gn', 'gen', 'mt', 'mat'}
 
@@ -55,7 +57,7 @@ def archivos(carpeta):
         rel = p.relative_to(carpeta)
         if any(x.startswith('.') or x in ('node_modules', 'confesiones') for x in rel.parts[:-1]):
             continue
-        if p.name.lower() in IGNORAR:
+        if p.name.lower() in IGNORAR or NO_BIBLIA.search(p.stem):
             continue
         yield p, rel.as_posix()
 
