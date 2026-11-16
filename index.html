@@ -401,7 +401,7 @@ async function dlAll(fs){let ok=0;
   try{await dl(S.man[i],i);ok++}catch(e){pg(i,'Error: '+e.message)}}
  if(!ok)return;
  if(!S.tr&&S.trs.length){D.open&&D.close();useTr(0)}else{tsel();if(S.tr){side();main()}refreshLib();toast(ok+' Biblia(s) lista(s)')}}
-const SKIP=/(^|\/)(biblias|biblias-info|package|package-lock|manifest|composer|tsconfig)\.json$|(^|\/)[^\/]*(catalogo|confesion|catecism|credo)[^\/]*\.json$|(^|\/)confesiones\//i;   // no son Biblias
+const SKIP=/(^|\/)(biblias[^\/]*|[^\/]*-info|package|package-lock|manifest|composer|tsconfig)\.json$|(^|\/)[^\/]*(catalogo|confesion|catecism|credo)[^\/]*\.json$|(^|\/)confesiones\//i;   // no son Biblias
 let _gt;
 function ghTree(){return _gt||(_gt=(async()=>{const h=location.hostname,repo=location.pathname.split('/')[1];
  if(!/\.github\.io$/i.test(h)||!repo)return[];

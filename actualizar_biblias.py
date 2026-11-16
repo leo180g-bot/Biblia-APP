@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 """
 Genera biblias.json: la lista (catálogo) de Biblias .json de la carpeta y TODAS sus subcarpetas
-(excepto la carpeta "confesiones" y los archivos cuyo nombre contenga catalogo, confesion, catecismo o credo,
+(excepto la carpeta "confesiones" y los archivos cuyo nombre contenga catalogo, confesion, catecismo o credo, empiece por "biblias" o termine en "-info",
 que usa actualizar_confesiones.py).
 index.html lee esa lista y deja que cada usuario elija cuáles descargar.
 
@@ -20,7 +20,7 @@ import argparse, json, re, sys, time, unicodedata
 from pathlib import Path
 
 IGNORAR = {'biblias.json', 'biblias-info.json', 'package.json', 'package-lock.json', 'manifest.json', 'composer.json', 'tsconfig.json'}
-NO_BIBLIA = re.compile(r'catalogo|confesion|catecism|credo', re.I)     # catálogos y textos de fe: los maneja actualizar_confesiones.py
+NO_BIBLIA = re.compile(r'catalogo|confesion|catecism|credo|^biblias|[-_]info$', re.I)     # catálogos y textos de fe: los maneja actualizar_confesiones.py
 NOMBRES = {'genesis', 'exodo', 'levitico', 'numeros', 'mateo', 'marcos', 'lucas', 'juan', 'matthew', 'mark',
            'luke', 'john', 'gn', 'gen', 'mt', 'mat'}
 
