@@ -95,7 +95,7 @@ def archivos(carpeta):
         rel = p.relative_to(carpeta)
         if any(x.startswith('.') or x in ('node_modules', 'confesiones') for x in rel.parts[:-1]):
             continue
-        if p.name.lower() in IGNORAR or NO_BIBLIA.search(p.stem):
+        if p.name.startswith('.') or p.name.lower() in IGNORAR or NO_BIBLIA.search(p.stem):
             continue
         yield p, rel.as_posix()
 

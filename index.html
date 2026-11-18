@@ -320,7 +320,7 @@ function range(a){const n=a.map(x=>+x.v.n);if(n.some(isNaN))return a.map(x=>x.v.
  const o=[];let s=n[0],p=n[0];for(let i=1;i<=n.length;i++){if(n[i]==p+1){p=n[i];continue}o.push(s==p?s:s+'-'+p);s=p=n[i]}return o.join(', ')}
 function selText(){const t=S.tr,b=t.books[S.bi],c=b.ch[S.ci],s=sels(),ref=`${b.disp} ${c.n}:${range(s)}`;
  const body=s.length==1?'“'+pl(s[0].v.t)+'”':s.map(({v})=>v.n+' '+pl(v.t)).join('\n');return{ref,tx:`${body}\n— ${ref} (${t.name})`}}
-function copyTx(tx){return(navigator.clipboard?navigator.clipboard.writeText(tx):Promise.reject()).catch(()=>{const z=document.createElement('textarea');z.value=tx;document.body.appendChild(z);z.select();try{document.execCommand('copy')}catch(e){}z.remove()}).then(()=>toast('Copiado'))}
+function copyTx(tx){const py=window.pywebview&&window.pywebview.api&&window.pywebview.api.copiar;return(py?py(tx).then(ok=>{if(!ok)throw 0}):navigator.clipboard?navigator.clipboard.writeText(tx):Promise.reject()).catch(()=>{const z=document.createElement('textarea');z.value=tx;document.body.appendChild(z);z.select();try{document.execCommand('copy')}catch(e){}z.remove()}).then(()=>toast('Copiado'))}
 let tt;function toast(m){const e=$('#toast');e.textContent=m;e.hidden=false;clearTimeout(tt);tt=setTimeout(()=>e.hidden=true,1800)}
 function act(a,el){const d=el.dataset;switch(a){
  case'open':S.pm=0;$('#file').click();break;
